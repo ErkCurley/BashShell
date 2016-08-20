@@ -51,8 +51,16 @@ function block($width,$height,$args){
 
 }
 while(true){
-	center('red');
-	center('green');
-	center('purple');
-	center('blue');
+	$color = rand(1,5);
+	if($color == 1){
+		center('blue');	
+	}elseif($color == 2){
+		center('red');
+	}elseif($color == 3){
+		center('green');
+	}elseif($color == 4){
+		center('purple');
+	}else{
+		center('');
+	}
 }
