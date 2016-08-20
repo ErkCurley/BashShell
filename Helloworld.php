@@ -51,5 +51,8 @@ function block($width,$height,$args){
 
 }
 while(true){
+	center('red');
+	center('green');
+	center('purple');
 	center('blue');
 }
