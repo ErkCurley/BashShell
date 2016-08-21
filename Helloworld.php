@@ -1,6 +1,9 @@
 #!/usr/bin/php
 <?php
 
+$fire = true;
+$fireStrength = 100;
+
 function center($args){
 
 	$COLUMNS = exec('tput cols');
@@ -19,7 +22,8 @@ function center($args){
 }
 
 function row($width,$args){
-
+	$fire = true;	
+	$line = '';
 
 	for($i=1;$i<$width;$i++){
 
@@ -35,9 +39,13 @@ function row($width,$args){
                 	$num = rand(1,256);
         	}        	
 
-        	echo "\e[48;5;{$num}m \e[0m";
-        	usleep(50000);
+		if($fire == true){
+			$line .= "\e[48;5;124m \e[0m";
+		}
+
         }
+	usleep(2000000);
+	echo $line;
 
 }
 
