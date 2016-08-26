@@ -38,8 +38,11 @@ function row($args){
 function block($args){
 
   global $height,$width;
-
+  
+  global $fromBottom;
+  
 	for($j=1;$j<$height;$j++){
+    $fromBottom = $height - $j;
     row($args);
 		$indent = 5 + $j;
     echo "\033[{$indent};5H";
@@ -49,12 +52,13 @@ function block($args){
 
 function slowRow($args){
   
-  global $height,$width,$additional;
+  global $fromBottom,$height,$width,$additional;
   
+  
+  $num = 21;
   $line = '';
 	for($i=1;$i<$width;$i++){
 
-    $num = 21;
 
 		if($args=='blue'){
       $num = rand(16,21);
@@ -75,22 +79,22 @@ function slowRow($args){
 			}
 		}
 		if($additional == "fire"){
-			$chance = rand(1,100);
-			if($chance < 95){
+			$chance = rand(1,$height);
+			if($chance < $fromBottom){
         			$line .= "\e[48;5;16m \e[0m";
         		}else{
 				$line .= "\e[48;5;{$num}m \e[0m";
 			}
 		}
 	}
-	usleep(2000000);
-	echo $line;
+	echo "$line $fromBottom";
+	usleep(1000000);
 }
 
 function fastRow($args)
 {
   
-  global $height,$width,$additional;
+  global $fromBottom,$height,$width,$additional;
   
   for($i=1;$i<$width;$i++){
 		if($args=='blue'){
@@ -104,10 +108,10 @@ function fastRow($args)
     }else{
       $num = rand(1,256);
     }
+    usleep(25000);
     echo "\e[48;5;{$num}m \e[0m";
-    usleep(50000);
   }
-  
+  echo "$fromBottom";
 }
 
 while(true){
@@ -137,7 +141,7 @@ while(true){
 	  center('purple');
 	}
 	if($program == 'random'){
-	  $color = rand(1,5);
+	  $color = rand(0,10);
 	  if($color == 1){
 			center('blue');
 		}elseif($color == 2){
@@ -146,6 +150,18 @@ while(true){
 			center('green');
 		}elseif($color == 4){
 			center('purple');
+		}elseif($color == 5){
+			center('blue','rain');
+		}elseif($color == 6){
+			center('bue','fire');
+		}elseif($color == 7){
+			center('red','rain');
+		}elseif($color == 8){
+			center('red','fire');
+		}elseif($color == 9){
+			center('purple','rain');
+		}elseif($color == 10){
+			center('purple','fire');
 		}else{
 			center('');
 		}
