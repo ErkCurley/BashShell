@@ -1,7 +1,13 @@
 #!/usr/bin/php
 <?php
 
-function center($args,$additional = false){
+function center($args,$add = false){
+
+  global $width;
+  global $height;
+  global $additional;
+  
+  $additional = $add;
 
 	$COLUMNS = exec('tput cols');
 	$LINES = exec('tput lines');
@@ -13,27 +19,51 @@ function center($args,$additional = false){
 
 	echo "\033[5;5H";
 
-	block($width,$height,$args,$additional);
+	block($args);
 
 
 }
 
-function row($width,$args,$additional = false){
-	
-	$line = '';
+function row($args){
+  global $additional;
+  
+	if($additional == "rain"){
+	  slowRow($args);
+	}else{
+	  fastRow($args);
+	}
+}
+
+function block($args){
+
+  global $height,$width;
+
+	for($j=1;$j<$height;$j++){
+    row($args);
+		$indent = 5 + $j;
+    echo "\033[{$indent};5H";
+  }
+
+}
+
+function slowRow($args)
+{
+  global $height,$width,$additional;
+  
+  $line = '';
 	for($i=1;$i<$width;$i++){
 
 		if($args=='blue'){
-                	$num = rand(16,21);
-        	}elseif($args == 'red'){
-                	$num = rand(124,129);
-        	}elseif($args == 'green'){
-                	$num = rand(46,51);
-        	}elseif($args == 'purple'){
-                	$num = rand(88,93);
- 		}    	
+      $num = rand(16,21);
+    }elseif($args == 'red'){
+      $num = rand(124,129);
+    }elseif($args == 'green'){
+    	$num = rand(46,51);
+    }elseif($args == 'purple'){
+    	$num = rand(88,93);
+ 		}
 
-		if($additional == true){
+		if($additional == "rain"){
 			$num = rand(16,21);
 			$chance = rand(1,100);
 			if($chance < 95){
@@ -43,31 +73,66 @@ function row($width,$args,$additional = false){
 			}
 		}
 
-        }
+  }
 	
 	echo $line;
 	usleep(2000000);
 
 }
 
-function block($width,$height,$args,$additional = false){
-
-	for($j=1;$j<$height;$j++){
-                row($width,$args,$additional);
-		$indent = 5 + $j;
-               	echo "\033[{$indent};5H";
-        }
-
+function fastRow($args)
+{
+  
+  global $height,$width,$additional;
+  
+  for($i=1;$i<$width;$i++){
+		if($args=='blue'){
+      $num = rand(16,21);
+    }elseif($args == 'red'){
+      $num = rand(124,129);
+    }elseif($args == 'green'){
+      $num = rand(46,51);
+    }elseif($args == 'purple'){
+      $num = rand(88,93);
+    }else{
+      $num = rand(1,256);
+    }
+    echo "\e[48;5;{$num}m \e[0m";
+    usleep(50000);
+  }
+  
 }
-while(true){
-	$rain = true;
-	if($rain == true){
-		center('blue','rain');
-	}else{
 
-		$color = rand(1,5);
-		if($color == 1){
-			center('blue');	
+while(true){
+	
+	if(isset($argv[1])){
+	  $program = (string) $argv[1];
+	}else{
+	  $program = 'random';
+	}
+  
+  echo " $program ";
+  usleep(2000000);
+  
+	if($program == "rain"){
+		center('blue','rain');
+	}
+	if($program == 'blue'){
+	  center('blue');
+	}
+  if($program == 'red'){
+	  center('red');
+	}
+	if($program == 'green'){
+	  center('green');
+	}
+	if($program == 'purple'){
+	  center('purple');
+	}
+	if($program == 'random'){
+	  $color = rand(1,5);
+	  if($color == 1){
+			center('blue');
 		}elseif($color == 2){
 			center('red');
 		}elseif($color == 3){
