@@ -153,7 +153,7 @@ while(true){
 		}elseif($color == 5){
 			center('blue','rain');
 		}elseif($color == 6){
-			center('bue','fire');
+			center('blue','fire');
 		}elseif($color == 7){
 			center('red','rain');
 		}elseif($color == 8){
