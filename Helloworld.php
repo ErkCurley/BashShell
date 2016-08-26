@@ -1,4 +1,5 @@
 #!/usr/bin/php
+
 <?php
 
 function center($args,$add = false){
@@ -46,8 +47,8 @@ function block($args){
 
 }
 
-function slowRow($args)
-{
+function slowRow($args){
+  
   global $height,$width,$additional;
   
   $line = '';
@@ -61,7 +62,7 @@ function slowRow($args)
     	$num = rand(46,51);
     }elseif($args == 'purple'){
     	$num = rand(88,93);
- 		}
+		}
 
 		if($additional == "rain"){
 			$num = rand(16,21);
@@ -72,6 +73,7 @@ function slowRow($args)
 				$line .= "\e[48;5;{$num}m \e[0m";
 			}
 		}
+	}
 	usleep(2000000);
 	echo $line;
 }
@@ -104,12 +106,9 @@ while(true){
 	if(isset($argv[1])){
 	  $program = (string) $argv[1];
 	}else{
-	  $program = 'random';
+	  $program = "random";
 	}
-  
-  echo " $program ";
-  usleep(2000000);
-  
+
 	if($program == "rain"){
 		center('blue','rain');
 	}
