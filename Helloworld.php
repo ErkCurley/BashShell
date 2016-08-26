@@ -28,7 +28,7 @@ function center($args,$add = false){
 function row($args){
   global $additional;
   
-	if($additional == "rain"){
+	if($additional == "rain" || $additional == "fire"){
 	  slowRow($args);
 	}else{
 	  fastRow($args);
@@ -54,6 +54,8 @@ function slowRow($args){
   $line = '';
 	for($i=1;$i<$width;$i++){
 
+    $num = 21;
+
 		if($args=='blue'){
       $num = rand(16,21);
     }elseif($args == 'red'){
@@ -63,9 +65,16 @@ function slowRow($args){
     }elseif($args == 'purple'){
     	$num = rand(88,93);
 		}
-
+    
 		if($additional == "rain"){
-			$num = rand(16,21);
+			$chance = rand(1,100);
+			if($chance < 95){
+        			$line .= "\e[48;5;16m \e[0m";
+        		}else{
+				$line .= "\e[48;5;{$num}m \e[0m";
+			}
+		}
+		if($additional == "fire"){
 			$chance = rand(1,100);
 			if($chance < 95){
         			$line .= "\e[48;5;16m \e[0m";
@@ -111,6 +120,9 @@ while(true){
 
 	if($program == "rain"){
 		center('blue','rain');
+	}
+	if($program == "fire"){
+	  center('red','fire');
 	}
 	if($program == 'blue'){
 	  center('blue');
